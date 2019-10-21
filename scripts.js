@@ -1,44 +1,3 @@
-// new container for the characters
-const url = "https://ghibliapi.herokuapp.com/people";
-
-// getting the dom element where I can then insert a list of characters
-const charactersList = document.getElementById("characters");
-// helper functions
-function createCharacterListNode(element) {
-  return document.createElement(element);
-}
-// helper functions
-function append(parent, el) {
-  return parent.appendChild(el);
-}
-
-// request for the characters
-fetchPromise = fetch(url);
-fetchPromise
-  .then(response => {
-    // console.log(response);
-    return response.json();
-  })
-  .then(people => {
-    const data = people;
-    // console.log(data);
-
-    const names = data
-      .map(name => {
-        let ul = createCharacterListNode("ul");
-        let li = createCharacterListNode("li");
-        li.innerHTML = name.name;
-        append(charactersList, ul);
-        append(ul, li);
-      })
-      .join("\n");
-  })
-  .catch(function(err) {
-    const errorMessage = document.createElement("marquee");
-    errorMessage.textContent = `Gah, it's not working`;
-    app.appendChild(errorMessage);
-  });
-
 // Below is the XMLHttpRequest method
 // Accessing the dom -> Inserting the film and each card into the root div
 const app = document.getElementById("root");
@@ -86,3 +45,61 @@ request.onload = function() {
 };
 
 request.send();
+
+// new container for the characters
+const url = "https://ghibliapi.herokuapp.com/people";
+
+// getting the dom element where I can then insert a list of characters
+const charactersList = document.getElementById("characters");
+// helper functions
+function createCharacterListNode(element) {
+  return document.createElement(element);
+}
+// helper functions
+function append(parent, el) {
+  return parent.appendChild(el);
+}
+
+// request for the characters
+fetchPromise = fetch(url);
+fetchPromise
+  .then(response => {
+    // console.log(response);
+    return response.json();
+  })
+  .then(people => {
+    const data = people;
+    // console.log(data);
+
+    const names = data
+      .map(name => {
+        let ul = createCharacterListNode("ul");
+        let li = createCharacterListNode("li");
+        li.innerHTML = name.name;
+        append(charactersList, ul);
+        append(ul, li);
+      })
+      .join("\n");
+  })
+  .catch(function(err) {
+    const errorMessage = document.createElement("marquee");
+    errorMessage.textContent = `Gah, it's not working`;
+    app.appendChild(errorMessage);
+  });
+
+// Clean Method
+function getListOfSpecies(species) {
+  const names = species.map(item => `<li>${item.name}</li>`).join("\n");
+  return `<ul>${names}</ul>`;
+}
+
+const URL = "https://ghibliapi.herokuapp.com/species";
+const main = document.getElementById("species");
+main.innerHTML = "<p>Loading...";
+fetch(URL)
+  .then(response => response.json())
+  .then(species => (main.innerHTML = getListOfSpecies(species)));
+const getListOfNames = people => {
+  const species = people.map(species => `<li>${species.name}</li>`).join("\n");
+  return `<ul>${species}</ul>`;
+};
